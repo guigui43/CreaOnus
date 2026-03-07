@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test CSS - Diagnostic</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .loading { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .test-link {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 5px;
+            transition: background 0.3s;
+        }
+        .test-link:hover {
+            background: #0056b3;
+            color: white;
+            text-decoration: none;
+        }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .iframe-container {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        iframe {
+            width: 100%;
+            height: 200px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Diagnostic CSS - Test des Thèmes</h1>
+    
+    <div class="test-section">
+        <h2>Test des URL CSS</h2>
+        <div id="css-test-results"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test des Thèmes en Iframe</h2>
+        <p>Si les thèmes s'affichent correctement ci-dessous, le problème vient de votre navigation:</p>
+        
+        <h3>Thème Elegant</h3>
+        <div class="iframe-container">
+            <iframe src="variants/elegant/index.html"></iframe>
+        </div>
+        
+        <h3>Thème Rainbow</h3>
+        <div class="iframe-container">
+            <iframe src="variants/rainbow/index.html"></iframe>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Test des Liens Directs</h2>
+        <p>Testez ces liens dans un nouvel onglet:</p>
+        <a href="variants/elegant/index.html" target="_blank" class="test-link">Elegant</a>
+        <a href="variants/neon/index.html" target="_blank" class="test-link">Neon Gaming</a>
+        <a href="variants/minimal/index.html" target="_blank" class="test-link">Minimal</a>
+        <a href="variants/retro/index.html" target="_blank" class="test-link">Retro</a>
+        <a href="variants/rainbow/index.html" target="_blank" class="test-link">Rainbow</a>
+    </div>
+
+    <div class="test-section">
+        <h2>Instructions de Débogage</h2>
+        <ol>
+            <li><strong>Ouvrez les DevTools</strong> (F12)</li>
+            <li><strong>Allez dans l'onglet Console</strong> pour voir les erreurs</li>
+            <li><strong>Allez dans l'onglet Network</strong> pour voir les fichiers qui échouent</li>
+            <li><strong>Rechargez la page</strong> (Ctrl+F5) pour forcer le rechargement du cache</li>
+        </ol>
+        
+        <h3>Erreurs communes:</h3>
+        <ul>
+            <li><strong>404 sur style.css</strong> → Fichier CSS manquant</li>
+            <li><strong>MIME type incorrect</strong> → Problème de serveur</li>
+            <li><strong>CORS error</strong> → Problème de sécurité</li>
+        </ul>
+    </div>
+
+    <script>
+        // Test de chargement des CSS
+        const cssFiles = [
+            'variants/elegant/style.css',
+            'variants/neon/style.css',
+            'variants/minimal/style.css',
+            'variants/retro/style.css',
+            'variants/rainbow/style.css'
+        ];
+
+        const testResults = document.getElementById('css-test-results');
+        
+        async function testCSSFile(url) {
+            try {
+                const response = await fetch(url);
+                const isCSS = response.headers.get('content-type')?.includes('text/css') || 
+                             response.headers.get('content-type')?.includes('text/plain') ||
+                             url.endsWith('.css');
+                
+                if (response.ok) {
+                    return {
+                        url,
+                        status: 'success',
+                        message: `✅ OK (${response.status}) - ${response.headers.get('content-type') || 'unknown type'}`,
+                        contentType: response.headers.get('content-type')
+                    };
+                } else {
+                    return {
+                        url,
+                        status: 'error',
+                        message: `❌ Erreur ${response.status}: ${response.statusText}`
+                    };
+                }
+            } catch (error) {
+                return {
+                    url,
+                    status: 'error',
+                    message: `❌ Erreur réseau: ${error.message}`
+                };
+            }
+        }
+
+        async function runTests() {
+            testResults.innerHTML = '<div class="status loading">⏳ Test en cours...</div>';
+            
+            const results = await Promise.all(cssFiles.map(testCSSFile));
+            
+            const html = results.map(result => `
+                <div class="status ${result.status}">
+                    <strong>${result.url}</strong><br>
+                    ${result.message}
+                </div>
+            `).join('');
+            
+            testResults.innerHTML = html;
+        }
+
+        // Lancer les tests au chargement
+        runTests();
+        
+        // Test de fonctionnement des iframes
+        setTimeout(() => {
+            const iframes = document.querySelectorAll('iframe');
+            iframes.forEach((iframe, index) => {
+                iframe.onload = function() {
+                    console.log(`Iframe ${index + 1} chargée successfully`);
+                };
+                iframe.onerror = function() {
+                    console.log(`Erreur iframe ${index + 1}`);
+                };
+            });
+        }, 1000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Minimal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Test Thème Minimal</h1>
+        <p class="subtitle">Si ce texte est stylé, le CSS fonctionne</p>
+        
+        <div class="player">
+            <audio controls>
+                <source src="../../musics/remy/Remy-Choco-toujours-plein-de-peps-reggae-2.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+        
+        <div class="test-info">
+            <h2>Informations de Test</h2>
+            <div id="css-status">Vérification CSS...</div>
+            <div id="browser-info"></div>
+        </div>
+    </div>
+
+    <script>
+        // Informations du navigateur
+        document.getElementById('browser-info').innerHTML = `
+            <strong>Navigateur:</strong> ${navigator.userAgent}<br>
+            <strong>URL:</strong> ${window.location.href}<br>
+            <strong>Protocol:</strong> ${window.location.protocol}
+        `;
+        
+        // Test CSS
+        const testElement = document.querySelector('.title');
+        if (testElement) {
+            const styles = window.getComputedStyle(testElement);
+            const color = styles.color;
+            const fontSize = styles.fontSize;
+            
+            if (color && color !== 'rgb(0, 0, 0)' && fontSize && fontSize !== '16px') {
+                document.getElementById('css-status').innerHTML = '✅ CSS chargé et appliqué';
+                document.getElementById('css-status').style.color = 'green';
+            } else {
+                document.getElementById('css-status').innerHTML = '❌ CSS non appliqué ou par défaut';
+                document.getElementById('css-status').style.color = 'red';
+            }
+        }
+    </script>
+</body>
+</html>

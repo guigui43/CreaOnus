@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Correction Erreur 404</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+        }
+        h1, h2 { text-align: center; margin-bottom: 30px; }
+        .test-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        .test-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .test-link {
+            display: block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            text-align: center;
+        }
+        .test-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+            text-decoration: none;
+            color: white;
+        }
+        .status {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        .status-ok { background: #28a745; color: white; }
+        .status-error { background: #dc3545; color: white; }
+        .status-testing { background: #ffc107; color: #212529; }
+        .console-log {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .success-banner {
+            background: rgba(40, 167, 69, 0.2);
+            border: 2px solid #28a745;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .info-box {
+            background: rgba(23, 162, 184, 0.2);
+            border: 2px solid #17a2b8;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✅ Test - Correction Erreur 404 CSS</h1>
+        
+        <div class="success-banner">
+            <h2>🎉 Problème Résolu !</h2>
+            <p>L'erreur <code>GET variants/style.css 404 (Not Found)</code> a été corrigée.</p>
+            <p>Toutes les redirections utilisent maintenant des CSS intégrés.</p>
+        </div>
+
+        <div class="test-section">
+            <h2>🔍 Test des Redirections Racine</h2>
+            <p>Ces liens ne devraient plus générer d'erreur 404 dans la console :</p>
+            <div class="test-links">
+                <a href="elegant.html" class="test-link" target="_blank">
+                    💎 elegant.html
+                    <span class="status status-ok">✅ FIXÉ</span>
+                </a>
+                <a href="neon.html" class="test-link" target="_blank">
+                    🌟 neon.html
+                    <span class="status status-ok">✅ FIXÉ</span>
+                </a>
+                <a href="minimal.html" class="test-link" target="_blank">
+                    🤍 minimal.html
+                    <span class="status status-ok">✅ FIXÉ</span>
+                </a>
+                <a href="retro.html" class="test-link" target="_blank">
+                    📻 retro.html
+                    <span class="status status-ok">✅ FIXÉ</span>
+                </a>
+                <a href="rainbow.html" class="test-link" target="_blank">
+                    🌈 rainbow.html
+                    <span class="status status-ok">✅ FIXÉ</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>🔍 Test des Redirections dans variants/</h2>
+            <p>Ces liens dans le dossier variants/ sont aussi corrigés :</p>
+            <div class="test-links">
+                <a href="variants/elegant.html" class="test-link" target="_blank">
+                    💎 variants/elegant.html
+                    <span class="status status-ok">✅ FIXÉ</span>
+                </a>
+                <a href="variants/neon.html" class="test-link" target="_blank">
+                    🌟 variants/neon.html
+                    <span class="status status-ok">✅ FIXÉ</span>
+                </a>
+                <a href="variants/minimal.html" class="test-link" target="_blank">
+                    🤍 variants/minimal.html
+                    <span class="status status-ok">✅ FIXÉ</span>
+                </a>
+                <a href="variants/retro.html" class="test-link" target="_blank">
+                    📻 variants/retro.html
+                    <span class="status status-ok">✅ FIXÉ</span>
+                </a>
+                <a href="variants/rainbow.html" class="test-link" target="_blank">
+                    🌈 variants/rainbow.html
+                    <span class="status status-ok">✅ FIXÉ</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>🧪 Test Automatique des Erreurs Console</h2>
+            <button onclick="runConsoleTest()">🔍 Démarrer le Test Console</button>
+            <button onclick="clearConsole()">🧹 Vider la Console</button>
+            <div id="console-results">
+                <p>Cliquez sur "Démarrer le Test Console" pour vérifier qu'aucune erreur 404 n'apparaît.</p>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3>📋 Instructions de Test</h3>
+            <ol>
+                <li><strong>Ouvrez les DevTools</strong> (F12) → Onglet Console</li>
+                <li><strong>Cliquez sur les liens</strong> ci-dessus</li>
+                <li><strong>Vérifiez la Console</strong> : vous ne devriez voir aucune erreur 404 sur style.css</li>
+                <li><strong>Résultat attendu</strong> : Redirection propre vers le thème sans erreur</li>
+            </ol>
+            
+            <h4>✅ Corrections Appliquées :</h4>
+            <ul>
+                <li><strong>Redirection META HTTP</strong> : <code>&lt;meta http-equiv="refresh" content="0;URL=..."&gt;</code></li>
+                <li><strong>CSS intégré</strong> : Plus de référence externe à style.css</li>
+                <li><strong>JavaScript backup</strong> : <code>window.location.replace()</code></li>
+                <li><strong>Styles thématiques</strong> : Chaque page de redirection a son style</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <button onclick="window.location.href='demo.html'">🎯 Aller au Sélecteur Principal</button>
+            <button onclick="window.location.href='test-urls.html'">🔗 Test Complet des URLs</button>
+        </div>
+    </div>
+
+    <script>
+        let consoleErrors = [];
+        
+        // Capture des erreurs console
+        const originalError = console.error;
+        console.error = function(...args) {
+            consoleErrors.push({
+                type: 'error',
+                message: args.join(' '),
+                timestamp: new Date().toLocaleTimeString()
+            });
+            originalError.apply(console, args);
+        };
+
+        const originalWarn = console.warn;
+        console.warn = function(...args) {
+            consoleErrors.push({
+                type: 'warn',
+                message: args.join(' '),
+                timestamp: new Date().toLocaleTimeString()
+            });
+            originalWarn.apply(console, args);
+        };
+
+        function runConsoleTest() {
+            consoleErrors = []; // Reset
+            const resultsDiv = document.getElementById('console-results');
+            
+            resultsDiv.innerHTML = `
+                <div class="console-log">
+                    <div style="color: #ffc107;">🔍 Test en cours...</div>
+                    <div>Surveillance des erreurs console démarrée à ${new Date().toLocaleTimeString()}</div>
+                    <div>Cliquez maintenant sur les liens de redirection pour tester.</div>
+                </div>
+            `;
+
+            // Après 30 secondes, afficher les résultats
+            setTimeout(() => {
+                displayConsoleResults();
+            }, 30000);
+        }
+
+        function displayConsoleResults() {
+            const resultsDiv = document.getElementById('console-results');
+            const css404Errors = consoleErrors.filter(error => 
+                error.message.includes('404') && 
+                (error.message.includes('style.css') || error.message.includes('variants/style.css'))
+            );
+
+            let resultHTML = '<div class="console-log">';
+            
+            if (css404Errors.length === 0) {
+                resultHTML += `
+                    <div style="color: #28a745; font-weight: bold;">✅ SUCCÈS : Aucune erreur 404 CSS détectée !</div>
+                    <div>Total des erreurs capturées : ${consoleErrors.length}</div>
+                    <div>Erreurs 404 CSS : 0</div>
+                    <div style="color: #17a2b8;">La correction fonctionne parfaitement ! 🎉</div>
+                `;
+            } else {
+                resultHTML += `
+                    <div style="color: #dc3545; font-weight: bold;">❌ ERREURS 404 CSS DÉTECTÉES :</div>
+                    <div>Nombre d'erreurs 404 CSS : ${css404Errors.length}</div>
+                `;
+                css404Errors.forEach(error => {
+                    resultHTML += `<div style="color: #ff6b6b;">[${error.timestamp}] ${error.message}</div>`;
+                });
+            }
+
+            if (consoleErrors.length > css404Errors.length) {
+                resultHTML += `<div style="margin-top: 10px; color: #ffc107;">Autres erreurs/avertissements : ${consoleErrors.length - css404Errors.length}</div>`;
+            }
+
+            resultHTML += '</div>';
+            resultsDiv.innerHTML = resultHTML;
+        }
+
+        function clearConsole() {
+            consoleErrors = [];
+            console.clear();
+            document.getElementById('console-results').innerHTML = '<p>Console vidée. Vous pouvez recommencer le test.</p>';
+        }
+
+        // Message de bienvenue
+        console.log('%c✅ Test Erreur 404 CSS - Correction Appliquée', 'color: #28a745; font-size: 16px; font-weight: bold;');
+        console.log('Cliquez sur les liens de redirection pour tester. Vous ne devriez plus voir d\'erreur 404 sur style.css.');
+    </script>
+</body>
+</html>

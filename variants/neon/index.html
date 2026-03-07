@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CreaOnus Neon - Karaoké Gaming</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="neon-grid"></div>
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    
+    <div class="app">
+        <header class="header">
+            <div class="glitch-container">
+                <h1 class="logo glitch-text" data-text="CreaOnus">CreaOnus</h1>
+            </div>
+            <p class="tagline">>>> GAMING MUSIC STATION <<<</p>
+            <div class="status-bar">
+                <span class="status-indicator"></span>
+                <span>SYSTEM ONLINE</span>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <section class="player-section">
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <div class="terminal-buttons">
+                            <span class="btn-close"></span>
+                            <span class="btn-minimize"></span>
+                            <span class="btn-maximize"></span>
+                        </div>
+                        <span class="terminal-title">AUDIO_PLAYER.exe</span>
+                    </div>
+                    
+                    <div class="album-art">
+                        <div class="hologram-frame">
+                            <img id="cover-image" src="" alt="Album cover" class="cover-image">
+                            <div class="vinyl">
+                                <div class="vinyl-inner">
+                                    <div class="vinyl-core"></div>
+                                </div>
+                                <div class="vinyl-glow"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="song-info">
+                        <h2 id="song-title">SELECT TRACK</h2>
+                        <p id="song-artist">---</p>
+                        <div class="scan-line"></div>
+                    </div>
+
+                    <div class="audio-controls">
+                        <audio id="audio-player" preload="metadata"></audio>
+                        
+                        <div class="progress-container">
+                            <span id="current-time">00:00</span>
+                            <div class="progress-wrapper">
+                                <input type="range" id="progress-bar" value="0" min="0" max="100">
+                                <div class="progress-glow"></div>
+                                <div class="progress-pulse"></div>
+                            </div>
+                            <span id="duration">00:00</span>
+                        </div>
+
+                        <div class="control-buttons">
+                            <button id="prev-btn" class="control-btn neon-btn" title="PREV">
+                                <i class="fas fa-backward"></i>
+                                <div class="btn-glow"></div>
+                            </button>
+                            <button id="play-btn" class="control-btn play-btn neon-btn" title="PLAY/PAUSE">
+                                <i class="play-icon fas fa-play"></i>
+                                <i class="pause-icon fas fa-pause"></i>
+                                <div class="btn-glow"></div>
+                            </button>
+                            <button id="next-btn" class="control-btn neon-btn" title="NEXT">
+                                <i class="fas fa-forward"></i>
+                                <div class="btn-glow"></div>
+                            </button>
+                        </div>
+
+                        <div class="volume-container">
+                            <i class="fas fa-volume-up neon-icon"></i>
+                            <div class="volume-wrapper">
+                                <input type="range" id="volume-slider" value="80" min="0" max="100">
+                                <div class="volume-glow"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="lyrics-section">
+                <div class="console-window">
+                    <div class="console-header">
+                        <i class="fas fa-terminal"></i>
+                        <span>LYRICS_SYNC.exe</span>
+                        <button id="karaoke-toggle" class="console-btn active">
+                            <span>KARAOKE_MODE</span>
+                            <div class="btn-pulse"></div>
+                        </button>
+                    </div>
+                    <div id="lyrics-container" class="lyrics-container">
+                        <p class="placeholder-text">>>> WAITING FOR TRACK SELECTION <<<</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="playlist-section">
+                <div class="database-window">
+                    <div class="database-header">
+                        <i class="fas fa-database"></i>
+                        <span>MUSIC_DATABASE</span>
+                        <div class="connection-status">
+                            <div class="status-dot"></div>
+                            <span>CONNECTED</span>
+                        </div>
+                    </div>
+                    <div id="playlist" class="playlist">
+                        <!-- Songs will be dynamically added here -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-grid">
+                <div class="footer-line"></div>
+                <p>CREATED WITH <span class="heart">♥</span> | POWERED BY <a href="https://suno.ai" target="_blank">SUNO.AI</a></p>
+                <div class="footer-line"></div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="../../js/path-helper.js"></script>
+    <script src="../../js/songs.js"></script>
+    <script src="../../js/app.js"></script>
+</body>
+</html>

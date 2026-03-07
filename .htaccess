@@ -1,0 +1,14 @@
+# Configuration pour servir les fichiers CSS avec le bon MIME type
+AddType text/css .css
+
+# Headers pour les fichiers CSS
+<FilesMatch "\.(css)$">
+    Header set Content-Type "text/css; charset=utf-8"
+</FilesMatch>
+
+# Disable caching pour le développement (optionnel)
+<FilesMatch "\.(css|js)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+</FilesMatch>

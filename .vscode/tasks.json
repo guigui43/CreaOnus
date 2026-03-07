@@ -1,0 +1,25 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Serve Local",
+            "type": "shell",
+            "command": "npx",
+            "args": ["serve", "-l", "3000"],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "isBackground": true,
+            "problemMatcher": {
+                "pattern": {
+                    "regexp": "^(.*)$"
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "serve",
+                    "endsPattern": "Local:"
+                }
+            }
+        }
+    ]
+}

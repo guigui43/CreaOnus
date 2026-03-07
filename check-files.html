@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vérification des Fichiers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+        }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .loading { background: #fff3cd; color: #856404; }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            border-left: 4px solid #007bff;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Vérification des Fichiers CreaOnus</h1>
+        
+        <div id="results">
+            <div class="status loading">⏳ Vérification en cours...</div>
+        </div>
+        
+        <button onclick="runCheck()">🔄 Refaire la Vérification</button>
+        <button onclick="downloadMissingFiles()">💾 Télécharger Fichiers Manquants</button>
+        
+        <h2>📋 Instructions</h2>
+        <ol>
+            <li><strong>Vert</strong> = Fichier trouvé et accessible ✅</li>
+            <li><strong>Rouge</strong> = Fichier manquant ou inaccessible ❌</li>
+            <li><strong>Jaune</strong> = Vérification en cours ⏳</li>
+        </ol>
+        
+        <h2>🚀 Actions de Réparation</h2>
+        <pre>
+# Si des fichiers CSS manquent, recréez-les:
+
+# 1. Arrêtez le serveur (Ctrl+C)
+# 2. Exécutez dans le terminal:
+git status
+git reset --hard HEAD  # Restaure tous les fichiers
+
+# 3. Ou récupérez manuellement:
+curl -O variants/elegant/style.css
+        </pre>
+    </div>
+
+    <script>
+        const requiredFiles = [
+            // Fichiers principaux
+            'index.html',
+            'css/style.css', 
+            'js/app.js',
+            'js/songs.js',
+            'js/path-helper.js',
+            
+            // Raccourcis thèmes
+            'elegant.html',
+            'neon.html',
+            'minimal.html',
+            'retro.html',
+            'rainbow.html',
+            
+            // Variantes HTML
+            'variants/elegant/index.html',
+            'variants/neon/index.html',
+            'variants/minimal/index.html',
+            'variants/retro/index.html',
+            'variants/rainbow/index.html',
+            
+            // Variantes CSS
+            'variants/elegant/style.css',
+            'variants/neon/style.css',
+            'variants/minimal/style.css',
+            'variants/retro/style.css',
+            'variants/rainbow/style.css',
+            
+            // Fichiers utiles
+            'demo.html',
+            'test-css.html',
+            'DEPANNAGE_CSS.md',
+            'variants/index.html'
+        ];
+
+        async function checkFile(url) {
+            try {
+                const response = await fetch(url, { method: 'HEAD' });
+                return {
+                    url,
+                    status: response.ok ? 'success' : 'error',
+                    message: response.ok 
+                        ? `✅ ${url} (${response.status})` 
+                        : `❌ ${url} (Erreur ${response.status})`,
+                    size: response.headers.get('content-length') || 'Inconnue'
+                };
+            } catch (error) {
+                return {
+                    url,
+                    status: 'error',
+                    message: `❌ ${url} (${error.message})`,
+                    size: 'N/A'
+                };
+            }
+        }
+
+        async function runCheck() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<div class="status loading">⏳ Vérification de ' + requiredFiles.length + ' fichiers...</div>';
+            
+            const results = await Promise.all(requiredFiles.map(checkFile));
+            
+            const successCount = results.filter(r => r.status === 'success').length;
+            const errorCount = results.filter(r => r.status === 'error').length;
+            
+            let html = `
+                <div class="status ${errorCount === 0 ? 'success' : 'error'}">
+                    📊 Résultat: ${successCount} fichiers trouvés, ${errorCount} manquants
+                </div>
+            `;
+            
+            html += results.map(result => `
+                <div class="status ${result.status}">
+                    ${result.message} 
+                    ${result.status === 'success' && result.size !== 'Inconnue' 
+                        ? `<small>(${result.size} bytes)</small>` 
+                        : ''}
+                </div>
+            `).join('');
+            
+            resultsDiv.innerHTML = html;
+            
+            console.log('Résultats de vérification:', results);
+        }
+
+        function downloadMissingFiles() {
+            alert('💡 Pour récupérer les fichiers manquants:\\n\\n1. Ouvrez un terminal\\n2. Tapez: git status\\n3. Tapez: git reset --hard HEAD\\n4. Ou clonez le projet à nouveau');
+        }
+
+        // Lancer la vérification au chargement
+        document.addEventListener('DOMContentLoaded', runCheck);
+    </script>
+</body>
+</html>

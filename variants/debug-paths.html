@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - Test des chemins (Variante)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f5f5f5;
+        }
+        .debug-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .path-test {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+        .status {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 10px;
+            display: inline-block;
+        }
+        .status.success { background: #28a745; }
+        .status.error { background: #dc3545; }
+        .status.loading { background: #ffc107; }
+        pre {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Debug - Test des Chemins (Variante)</h1>
+    
+    <div class="debug-section">
+        <h2>Détection du contexte</h2>
+        <div id="context-info"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>Test des chemins JavaScript</h2>
+        <div id="js-status"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>Test des chemins des chansons</h2>
+        <div id="songs-paths"></div>
+    </div>
+    
+    <div class="debug-section">
+        <h2>Test de chargement des ressources</h2>
+        <div id="resources-test"></div>
+    </div>
+
+    <script src="../js/path-helper.js"></script>
+    <script src="../js/songs.js"></script>
+    <script>
+        // Test du contexte
+        const isInVariant = window.location.pathname.includes('/variants/');
+        document.getElementById('context-info').innerHTML = `
+            <p><strong>URL actuelle:</strong> ${window.location.pathname}</p>
+            <p><strong>Dans une variante:</strong> ${isInVariant ? 'Oui' : 'Non'}</p>
+            <p><strong>Préfixe de chemin:</strong> ${isInVariant ? '../' : '(aucun)'}</p>
+        `;
+
+        // Test des scripts JavaScript
+        const jsStatus = [];
+        if (typeof window.pathHelper !== 'undefined') {
+            jsStatus.push('<div class="path-test"><span class="status success"></span>pathHelper.js chargé</div>');
+        } else {
+            jsStatus.push('<div class="path-test"><span class="status error"></span>pathHelper.js NON chargé</div>');
+        }
+
+        if (typeof window.SONGS !== 'undefined') {
+            jsStatus.push('<div class="path-test"><span class="status success"></span>songs.js chargé (' + window.SONGS.length + ' chansons)</div>');
+        } else {
+            jsStatus.push('<div class="path-test"><span class="status error"></span>songs.js NON chargé</div>');
+        }
+
+        document.getElementById('js-status').innerHTML = jsStatus.join('');
+
+        // Test des chemins des chansons
+        if (typeof window.SONGS !== 'undefined') {
+            const songsHtml = window.SONGS.map(song => `
+                <div class="path-test">
+                    <div>
+                        <strong>${song.title}</strong><br>
+                        <small>Audio: ${song.audioFile}</small><br>
+                        <small>Cover: ${song.cover}</small>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('songs-paths').innerHTML = songsHtml;
+        } else {
+            document.getElementById('songs-paths').innerHTML = '<p>Aucune chanson chargée</p>';
+        }
+
+        // Test de chargement des ressources
+        if (typeof window.SONGS !== 'undefined') {
+            const resourceTests = [];
+            
+            window.SONGS.forEach(song => {
+                // Test audio
+                if (song.audioFile) {
+                    resourceTests.push(testResource(song.audioFile, 'Audio: ' + song.title));
+                }
+                
+                // Test cover
+                if (song.cover) {
+                    resourceTests.push(testResource(song.cover, 'Cover: ' + song.title));
+                }
+            });
+            
+            Promise.all(resourceTests).then(results => {
+                const html = results.map(result => `
+                    <div class="path-test">
+                        <span class="status ${result.success ? 'success' : 'error'}"></span>
+                        ${result.name}: ${result.success ? 'OK' : 'ERREUR'}
+                        ${result.error ? '<br><small>' + result.error + '</small>' : ''}
+                    </div>
+                `).join('');
+                document.getElementById('resources-test').innerHTML = html;
+            });
+        }
+
+        function testResource(url, name) {
+            return new Promise(resolve => {
+                fetch(url, { method: 'HEAD' })
+                    .then(response => {
+                        resolve({
+                            name: name,
+                            success: response.ok,
+                            error: response.ok ? null : `HTTP ${response.status}`
+                        });
+                    })
+                    .catch(error => {
+                        resolve({
+                            name: name,
+                            success: false,
+                            error: error.message
+                        });
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirection vers Minimal</title>
+    <meta http-equiv="refresh" content="0;URL=minimal/index.html">
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
+            text-align: center; 
+            margin-top: 100px;
+            background: #ffffff;
+            color: #333;
+            min-height: 100vh;
+        }
+        .loading { 
+            font-size: 1.5rem; 
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+        a { 
+            color: #4a90e2; 
+            text-decoration: none; 
+            font-weight: 500;
+            border: 2px solid #4a90e2;
+            padding: 12px 24px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+        a:hover { 
+            background: #4a90e2;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(74, 144, 226, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="loading">🤍 Redirection vers le thème Minimal...</div>
+    <p>Si la redirection automatique ne fonctionne pas :</p>
+    <a href="minimal/index.html">👆 Cliquez ici pour accéder au thème Minimal</a>
+    <script>
+        // Redirection JavaScript immédiate en backup
+        window.location.replace('minimal/index.html');
+    </script>
+</body>
+</html>
