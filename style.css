@@ -142,9 +142,10 @@ input[type="range"] {
 
 /* Playlist list */
 .playlist {
-  flex: 1;
+  flex: 1 1 0;   /* base 0 height crucial for iOS Safari overflow-y */
   min-height: 0;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 8px 0 16px;
   scrollbar-width: thin;
   scrollbar-color: var(--surface-4) transparent;
@@ -269,6 +270,7 @@ input[type="range"] {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
+  align-content: flex-start;
   gap: 4px;
   padding: 4px 8px 8px 40px;
 }
@@ -875,6 +877,10 @@ input[type="range"] {
   .sidebar {
     position: fixed;
     top: 0; left: 0; bottom: 0;
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     width: min(var(--sidebar-w), 88vw);
     transform: translateX(-105%);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
