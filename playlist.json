@@ -21,7 +21,7 @@
       "cover": "musics/timeo/default.jpeg",
       "lyrics": "musics/timeo/default.lyrics",
       "variants": [
-        { "id": "v1",    "label": "Version 1", "file": "musics/timeo/Timeo-Yeah-yeah.mp3", "syncLyrics": false, "main": true },
+        { "id": "v1",    "label": "Version 1", "file": "musics/timeo/Timeo-Yeah-yeah.mp3", "lyrics": "musics/timeo/Timeo-Yeah-yeah.lyrics", "syncLyrics": true, "main": true },
         { "id": "suite", "label": "Suite",     "file": "musics/timeo/Timeo-Yeah-yeah-suite.mp3", "syncLyrics": false }
       ]
     }

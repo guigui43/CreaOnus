@@ -29,6 +29,7 @@ class CreaOnus {
     this._bindProgressEvents();
     this._bindKeyboard();
     this._bindMobileSidebar();
+    this._bindPullToRefresh();
 
     try {
       const res = await fetch('playlist.json');
@@ -586,6 +587,68 @@ class CreaOnus {
           break;
       }
     });
+  }
+
+  _bindPullToRefresh() {
+    if (window.innerWidth > 640) return;
+
+    const THRESHOLD = 72;   // px to trigger refresh
+    const indicator = document.getElementById('ptrIndicator');
+    const label     = indicator.querySelector('.ptr-label');
+    const spinner   = indicator.querySelector('.ptr-spinner');
+    let startY = 0, pulling = false, refreshing = false;
+
+    const lyricsScroll = document.getElementById('lyricsScroll');
+
+    document.addEventListener('touchstart', e => {
+      if (refreshing) return;
+      // Only pull when the lyrics container is scrolled to top
+      if (lyricsScroll.scrollTop > 0) return;
+      startY = e.touches[0].clientY;
+      pulling = true;
+    }, { passive: true });
+
+    document.addEventListener('touchmove', e => {
+      if (!pulling || refreshing) return;
+      const dy = e.touches[0].clientY - startY;
+      if (dy <= 0) { pulling = false; return; }
+
+      indicator.classList.add('ptr-active');
+      const progress = Math.min(dy / THRESHOLD, 1);
+      const offset   = Math.min(dy * 0.4, THRESHOLD * 0.6);
+      indicator.style.transform = `translateY(${offset - indicator.offsetHeight}px)`;
+      spinner.style.strokeDashoffset = 31.4 * (1 - progress);
+      spinner.style.transform = `rotate(${progress * 180}deg)`;
+
+      if (dy >= THRESHOLD) {
+        indicator.classList.add('ptr-ready');
+        label.textContent = 'Relâcher pour actualiser';
+      } else {
+        indicator.classList.remove('ptr-ready');
+        label.textContent = 'Tirer pour actualiser';
+      }
+    }, { passive: true });
+
+    const finish = async () => {
+      if (!pulling) return;
+      pulling = false;
+      const dy = parseFloat(indicator.style.transform.replace(/[^\d.-]/g, '')) + indicator.offsetHeight;
+      if (dy >= THRESHOLD * 0.4) {
+        refreshing = true;
+        indicator.classList.add('ptr-refreshing');
+        indicator.classList.remove('ptr-ready');
+        label.textContent = 'Actualisation…';
+        indicator.style.transform = `translateY(0px)`;
+        await new Promise(r => setTimeout(r, 600));
+        location.reload();
+      } else {
+        indicator.classList.remove('ptr-active', 'ptr-ready');
+        indicator.style.transform = `translateY(-100%)`;
+      }
+    };
+
+    document.addEventListener('touchend',    finish, { passive: true });
+    document.addEventListener('touchcancel', finish, { passive: true });
   }
 
   _bindMobileSidebar() {

@@ -46,6 +46,15 @@
     <!-- ── Main Content ──────────────────────────────── -->
     <main class="main">
 
+      <!-- Pull-to-refresh indicator -->
+      <div class="ptr-indicator" id="ptrIndicator" aria-hidden="true">
+        <svg class="ptr-spinner" viewBox="0 0 24 24" fill="none">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-dasharray="31.4" stroke-dashoffset="31.4"/>
+        </svg>
+        <span class="ptr-label">Tirer pour actualiser</span>
+      </div>
+
       <!-- Mobile top bar -->
       <div class="mobile-topbar">
         <button class="mobile-playlist-btn" id="mobilePlaylistBtn" aria-label="Ouvrir la playlist">
