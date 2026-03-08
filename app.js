@@ -16,6 +16,7 @@ class CreaOnus {
     this._syncLyricsOn   = true;
     this._muted          = false;
     this._dragging       = false;
+    this._wakeLock       = null;
 
     this._init();
   }
@@ -493,6 +494,7 @@ class CreaOnus {
       document.querySelector('.icon-pause').style.display = 'block';
       document.getElementById('playBtn').setAttribute('aria-label', 'Pause');
       this._updatePlaylistHighlight();
+      this._acquireWakeLock();
     });
 
     audio.addEventListener('pause', () => {
@@ -501,11 +503,24 @@ class CreaOnus {
       document.querySelector('.icon-pause').style.display = 'none';
       document.getElementById('playBtn').setAttribute('aria-label', 'Play');
       this._updatePlaylistHighlight();
+      this._releaseWakeLock();
     });
 
     audio.addEventListener('error', () => {
       console.warn('[CreaOnus] Erreur audio – fichier introuvable ou format non supporté.');
     });
+  }
+
+  async _acquireWakeLock() {
+    if (!('wakeLock' in navigator)) return;
+    try {
+      this._wakeLock = await navigator.wakeLock.request('screen');
+      this._wakeLock.addEventListener('release', () => { this._wakeLock = null; });
+    } catch { /* permission refusée ou non supporté */ }
+  }
+
+  _releaseWakeLock() {
+    if (this._wakeLock) { this._wakeLock.release(); this._wakeLock = null; }
   }
 
   _bindControlEvents() {
