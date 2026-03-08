@@ -836,7 +836,7 @@ input[type="range"] {
   .sidebar.open { transform: translateX(0); }
   .sidebar-close-btn { display: flex; }
 
-  .main { grid-column: 1; height: 100vh; }
+  .main { grid-column: 1; height: 100dvh; }
 
   /* Mobile topbar */
   .mobile-topbar {
@@ -888,7 +888,7 @@ input[type="range"] {
   .song-title  { font-size: 15px; }
   .song-artist { font-size: 12px; margin-bottom: 8px; }
 
-  .player      { padding: 8px 16px 14px; }
+  .player      { padding: 8px 16px calc(14px + env(safe-area-inset-bottom, 0px)); }
   .karaoke-toolbar { padding: 4px 16px; }
   .lyrics-scroll   { padding: 32px 16px; }
 
