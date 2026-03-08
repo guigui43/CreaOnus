@@ -38,7 +38,24 @@ class CreaOnus {
       const data = await res.json();
       this._songs = data.songs;
       this._renderPlaylist();
-      if (this._songs.length > 0) this._selectSong(0, this._mainVariantIdx(this._songs[0]), false);
+
+      // Restore from URL params if present
+      const params = new URLSearchParams(location.search);
+      const songId  = params.get('s');
+      const varId   = params.get('v');
+      let si = 0, vi = -1;
+      if (songId) {
+        const found = this._songs.findIndex(s => s.id === songId);
+        if (found >= 0) {
+          si = found;
+          if (varId) {
+            const fv = this._songs[si].variants.findIndex(v => v.id === varId);
+            if (fv >= 0) vi = fv;
+          }
+        }
+      }
+      if (vi < 0) vi = this._mainVariantIdx(this._songs[si]);
+      if (this._songs.length > 0) this._selectSong(si, vi, false);
     } catch (err) {
       console.error('[CreaOnus]', err);
       document.getElementById('playlist').innerHTML =
@@ -128,6 +145,10 @@ class CreaOnus {
 
     const song    = this._songs[si];
     const variant = song.variants[vi];
+
+    // Update URL params
+    const params = new URLSearchParams({ s: song.id, v: variant.id });
+    history.replaceState(null, '', '?' + params.toString());
 
     // Update now-playing info
     document.getElementById('songTitle').textContent  = song.title;
