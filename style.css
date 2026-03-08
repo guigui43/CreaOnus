@@ -263,6 +263,7 @@ input[type="range"] {
 .playlist-variants {
   display: flex;
   flex-wrap: wrap;
+  align-items: flex-start;
   gap: 4px;
   padding: 4px 8px 8px 40px;
 }
@@ -273,6 +274,9 @@ input[type="range"] {
   padding: 3px 10px;
   border-radius: 20px;
   background: var(--surface-3);
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
   color: var(--text-dim);
   border: 1px solid transparent;
   transition: all 0.15s;
@@ -290,13 +294,15 @@ input[type="range"] {
   box-shadow: 0 2px 8px rgba(168, 85, 247, 0.4);
 }
 
+
+
 /* ═══════════════════════════════════════════════════════════════════
    Main
 ═══════════════════════════════════════════════════════════════════ */
 .main {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 0;
   overflow: hidden;
   background: var(--bg);
 }
@@ -434,9 +440,9 @@ input[type="range"] {
 .variants { display: flex; flex-wrap: wrap; gap: 6px; }
 
 .variant-chip {
-  font-size: 12px;
+  font-size: 11px;
   font-family: inherit;
-  padding: 4px 13px;
+  padding: 3px 10px;
   border-radius: 20px;
   background: var(--surface-2);
   color: var(--text-dim);
@@ -696,6 +702,10 @@ input[type="range"] {
 .ctrl-btn svg { width: 22px; height: 22px; }
 .ctrl-btn:hover { color: var(--text); background: var(--surface-2); }
 .ctrl-btn:active { transform: scale(0.9); }
+
+/* Download button */
+.dl-btn { text-decoration: none; }
+.dl-btn[aria-disabled="true"] { opacity: 0.35; pointer-events: none; }
 
 /* Play button */
 .play-btn {

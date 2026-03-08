@@ -7,11 +7,11 @@
       "cover": "musics/remy/default.jpeg",
       "lyrics": "musics/remy/default.lyrics",
       "variants": [
-        { "id": "rap",      "label": "Rap",      "file": "musics/remy/Remy-Choco-toujours-plein-de-peps-rap.mp3", "lyrics": "musics/remy/default.suno", "karaoke": false },
-        { "id": "reggae-1", "label": "Reggae 1", "file": "musics/remy/Remy-Choco-toujours-plein-de-peps-reggae-1.mp3", "lyrics": "musics/remy/default.suno", "karaoke": false },
-        { "id": "reggae-2", "label": "Reggae 2", "file": "musics/remy/Remy-Choco-toujours-plein-de-peps-reggae-2.mp3", "lyrics": "musics/remy/default.suno", "karaoke": false },
-        { "id": "reggae-3", "label": "Reggae 3", "file": "musics/remy/Remy-Choco-toujours-plein-de-peps-reggae-3.mp3", "lyrics": "musics/remy/Remy-Choco-toujours-plein-de-peps-reggae-3.lyrics" },
-        { "id": "upbeat",   "label": "Upbeat",   "file": "musics/remy/Remy-Choco-toujours-plein-de-peps-upbeat.mp3", "lyrics": "musics/remy/default.suno", "karaoke": false }
+        { "id": "rap",      "label": "Rap",      "file": "musics/remy/Remy-Choco-toujours-plein-de-peps-rap.mp3", "lyrics": "musics/remy/default.suno", "syncLyrics": false },
+        { "id": "reggae-1", "label": "Reggae 1", "file": "musics/remy/Remy-Choco-toujours-plein-de-peps-reggae-1.mp3", "lyrics": "musics/remy/default.suno", "syncLyrics": false },
+        { "id": "reggae-2", "label": "Reggae 2", "file": "musics/remy/Remy-Choco-toujours-plein-de-peps-reggae-2.mp3", "lyrics": "musics/remy/default.suno", "syncLyrics": false },
+        { "id": "reggae-3", "label": "Reggae 3", "file": "musics/remy/Remy-Choco-toujours-plein-de-peps-reggae-3.mp3", "lyrics": "musics/remy/Remy-Choco-toujours-plein-de-peps-reggae-3.lyrics", "main": true },
+        { "id": "upbeat",   "label": "Upbeat",   "file": "musics/remy/Remy-Choco-toujours-plein-de-peps-upbeat.mp3", "lyrics": "musics/remy/default.suno", "syncLyrics": false }
       ]
     },
     {
@@ -21,8 +21,8 @@
       "cover": "musics/timeo/default.jpeg",
       "lyrics": "musics/timeo/default.lyrics",
       "variants": [
-        { "id": "v1",    "label": "Version 1", "file": "musics/timeo/Timeo-Yeah-yeah.mp3", "karaoke": false },
-        { "id": "suite", "label": "Suite",     "file": "musics/timeo/Timeo-Yeah-yeah-suite.mp3", "karaoke": false }
+        { "id": "v1",    "label": "Version 1", "file": "musics/timeo/Timeo-Yeah-yeah.mp3", "syncLyrics": false, "main": true },
+        { "id": "suite", "label": "Suite",     "file": "musics/timeo/Timeo-Yeah-yeah-suite.mp3", "syncLyrics": false }
       ]
     }
   ]

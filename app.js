@@ -13,7 +13,7 @@ class CreaOnus {
     this._currentVariant = 0;
     this._lyrics         = [];   // [{ text, isHeader, time }]
     this._activeLine     = -1;
-    this._karaokeOn      = true;
+    this._syncLyricsOn   = true;
     this._muted          = false;
     this._dragging       = false;
 
@@ -36,7 +36,7 @@ class CreaOnus {
       const data = await res.json();
       this._songs = data.songs;
       this._renderPlaylist();
-      if (this._songs.length > 0) this._selectSong(0, 0, false);
+      if (this._songs.length > 0) this._selectSong(0, this._mainVariantIdx(this._songs[0]), false);
     } catch (err) {
       console.error('[CreaOnus]', err);
       document.getElementById('playlist').innerHTML =
@@ -78,9 +78,9 @@ class CreaOnus {
           <div class="playlist-song-meta">${this._esc(song.artist)} · ${song.variants.length} style${song.variants.length > 1 ? 's' : ''}</div>
         </div>`;
 
-      header.addEventListener('click', () => this._selectSong(si, 0));
+      header.addEventListener('click', () => this._selectSong(si, this._mainVariantIdx(song)));
       header.addEventListener('keydown', e => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this._selectSong(si, 0); }
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this._selectSong(si, this._mainVariantIdx(song)); }
       });
       songEl.appendChild(header);
 
@@ -89,10 +89,15 @@ class CreaOnus {
       variantsEl.className = 'playlist-variants';
       variantsEl.id = `pv-${si}`;
 
-      song.variants.forEach((v, vi) => {
+      const sorted = song.variants
+        .map((v, vi) => ({ v, vi }))
+        .sort((a, b) => (b.v.main ? 1 : 0) - (a.v.main ? 1 : 0));
+
+      sorted.forEach(({ v, vi }) => {
         const btn = document.createElement('button');
-        btn.className = 'playlist-variant-btn';
-        btn.textContent = v.label;
+        btn.className = 'playlist-variant-btn' + (v.main ? ' main' : '');
+        btn.textContent = v.main ? `★ ${v.label}` : v.label;
+        if (v.main) btn.setAttribute('title', 'Variante principale');
         btn.dataset.vi = vi;
         btn.setAttribute('aria-label', `${v.label} – ${song.title}`);
         btn.addEventListener('click', e => {
@@ -105,6 +110,11 @@ class CreaOnus {
       songEl.appendChild(variantsEl);
       container.appendChild(songEl);
     });
+  }
+
+  _mainVariantIdx(song) {
+    const idx = song.variants.findIndex(v => v.main);
+    return idx >= 0 ? idx : 0;
   }
 
   // ─────────────────────────────────────────────────────────────────
@@ -139,12 +149,18 @@ class CreaOnus {
     document.getElementById('currentTime').textContent = '0:00';
     this._setProgress(0);
 
-    // Apply karaoke mode: variant flag takes priority over current user state.
-    // "karaoke" field is a boolean (default: true when absent).
-    if (variant.karaoke === false) {
-      this._applyKaraoke(false);
-    } else if (variant.karaoke === true) {
-      this._applyKaraoke(true);
+    // Download button
+    const dlBtn = document.getElementById('downloadBtn');
+    dlBtn.href = variant.file;
+    dlBtn.download = `${song.title} – ${variant.label}.mp3`;
+    dlBtn.removeAttribute('aria-disabled');
+
+    // Apply syncLyrics mode: variant flag takes priority over current user state.
+    // "syncLyrics" field is a boolean (default: true when absent).
+    if (variant.syncLyrics === false) {
+      this._applySyncLyrics(false);
+    } else if (variant.syncLyrics === true) {
+      this._applySyncLyrics(true);
     }
     // If the field is absent, preserve whatever the user set manually.
 
@@ -162,7 +178,10 @@ class CreaOnus {
   _renderVariantChips(song, activeVi) {
     const cont = document.getElementById('variants');
     cont.innerHTML = '';
-    song.variants.forEach((v, i) => {
+    const sorted = song.variants
+      .map((v, i) => ({ v, i }))
+      .sort((a, b) => (b.v.main ? 1 : 0) - (a.v.main ? 1 : 0));
+    sorted.forEach(({ v, i }) => {
       const btn = document.createElement('button');
       btn.className  = 'variant-chip' + (i === activeVi ? ' active' : '');
       btn.textContent = v.label;
@@ -320,7 +339,7 @@ class CreaOnus {
    * Only updates the DOM when the active line actually changes.
    */
   _syncLyrics(currentTime) {
-    if (!this._lyrics.length) return;
+    if (!this._syncLyricsOn || !this._lyrics.length) return;
 
     // Reversed binary search: largest index where time <= currentTime
     let lo = 0, hi = this._lyrics.length - 1, found = -1;
@@ -383,12 +402,12 @@ class CreaOnus {
     }
   }
 
-  _toggleKaraoke() {
-    this._applyKaraoke(!this._karaokeOn);
+  _toggleSyncLyrics() {
+    this._applySyncLyrics(!this._syncLyricsOn);
   }
 
-  _applyKaraoke(on) {
-    this._karaokeOn = on;
+  _applySyncLyrics(on) {
+    this._syncLyricsOn = on;
     const btn     = document.getElementById('karaokeToggle');
     const section = document.getElementById('karaokeSection');
     btn.classList.toggle('active', on);
@@ -492,7 +511,7 @@ class CreaOnus {
     document.getElementById('playBtn').addEventListener('click',       () => this._togglePlay());
     document.getElementById('prevBtn').addEventListener('click',       () => this._prev());
     document.getElementById('nextBtn').addEventListener('click',       () => this._next());
-    document.getElementById('karaokeToggle').addEventListener('click', () => this._toggleKaraoke());
+    document.getElementById('karaokeToggle').addEventListener('click', () => this._toggleSyncLyrics());
     document.getElementById('volBtn').addEventListener('click',        () => this._toggleMute());
 
     const volSlider = document.getElementById('volumeSlider');
@@ -563,7 +582,7 @@ class CreaOnus {
           this._toggleMute();
           break;
         case 'KeyK':
-          this._toggleKaraoke();
+          this._toggleSyncLyrics();
           break;
       }
     });
