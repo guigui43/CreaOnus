@@ -1,99 +1,153 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CreaOnus - Karaoké Musical</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CreaOnus – Karaoké Suno AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app">
-        <header class="header">
-            <h1 class="logo">CreaOnus</h1>
-            <p class="tagline">Créations musicales Suno</p>
-            <div class="style-selector">
-                <a href="demo.html" class="variants-link" title="Découvrir les autres styles">
-                    🎨 Autres Styles
-                </a>
-                <a href="themes.html" class="variants-link" title="Sélecteur de thèmes">
-                    🎯 Choisir un Thème
-                </a>
+
+  <div class="app">
+
+    <!-- ── Sidebar Playlist ─────────────────────────── -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <svg class="logo-icon" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke="url(#lg)" stroke-width="1.5"/>
+            <circle cx="12" cy="12" r="3"  fill="url(#lg)"/>
+            <path d="M12 2a10 10 0 0 1 0 20" stroke="url(#lg)" stroke-width="1" stroke-dasharray="3 3"/>
+            <defs>
+              <linearGradient id="lg" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#a855f7"/>
+                <stop offset="1" stop-color="#ec4899"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div>
+            <h1 class="app-title">CreaOnus</h1>
+            <p class="app-subtitle">Créations Suno AI</p>
+          </div>
+        </div>
+        <button class="sidebar-close-btn" id="sidebarCloseBtn" aria-label="Fermer la playlist">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </div>
+
+      <div class="playlist" id="playlist">
+        <div class="playlist-loading">Chargement…</div>
+      </div>
+    </aside>
+
+    <!-- ── Main Content ──────────────────────────────── -->
+    <main class="main">
+
+      <!-- Mobile top bar -->
+      <div class="mobile-topbar">
+        <button class="mobile-playlist-btn" id="mobilePlaylistBtn" aria-label="Ouvrir la playlist">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+          Playlist
+        </button>
+        <span class="mobile-app-title">CreaOnus</span>
+      </div>
+
+      <!-- ── Now Playing ─────────────────────────────── -->
+      <div class="now-playing">
+
+        <div class="vinyl-wrapper">
+          <div class="vinyl" id="vinyl">
+            <img class="vinyl-cover" id="vinylCover" src="" alt="Pochette album">
+            <div class="vinyl-hole"></div>
+          </div>
+          <div class="vinyl-reflection"></div>
+          <div class="vinyl-shadow"></div>
+        </div>
+
+        <div class="song-details">
+          <div class="now-label">En cours de lecture</div>
+          <h2 class="song-title" id="songTitle">Sélectionnez une chanson</h2>
+          <p class="song-artist" id="songArtist">CreaOnus · Karaoké Suno AI</p>
+          <div class="variants" id="variants"></div>
+        </div>
+
+      </div>
+
+      <!-- ── Karaoke Lyrics ──────────────────────────── -->
+      <div class="karaoke-section" id="karaokeSection">
+
+        <div class="karaoke-toolbar">
+          <button class="karaoke-toggle active" id="karaokeToggle" aria-pressed="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 11.24V7.5a3 3 0 0 1 6 0v3.74c.88-.54 1.5-1.49 1.5-2.74V7.5C16.5 5.01 14.49 3 12 3S7.5 5.01 7.5 7.5v1c0 1.25.62 2.2 1.5 2.74zM19 12h-1.7c-.42 3.19-3.08 5.5-6.15 5.5-3.07 0-5.74-2.31-6.15-5.5H3.3c.44 3.96 3.6 7.01 7.7 7.44V22h2v-2.56c4.1-.43 7.26-3.48 7.7-7.44H19z"/></svg>
+            Suivi des paroles
+          </button>
+        </div>
+
+        <div class="lyrics-container" id="lyricsContainer">
+          <div class="lyrics-fade-top"    aria-hidden="true"></div>
+          <div class="lyrics-scroll" id="lyricsScroll" role="log" aria-live="polite" aria-label="Paroles">
+            <div class="lyrics-placeholder">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/></svg>
+              <p>Sélectionnez une chanson pour afficher les paroles</p>
             </div>
-        </header>
+          </div>
+          <div class="lyrics-fade-bottom" aria-hidden="true"></div>
+        </div>
 
-        <main class="main-content">
-            <section class="player-section">
-                <div class="album-art">
-                    <img id="cover-image" src="" alt="Album cover" class="cover-image">
-                    <div class="vinyl">
-                        <div class="vinyl-inner"></div>
-                    </div>
-                </div>
+      </div>
 
-                <div class="song-info">
-                    <h2 id="song-title">Sélectionnez une chanson</h2>
-                    <p id="song-artist">-</p>
-                </div>
+      <!-- ── Player Controls ────────────────────────── -->
+      <div class="player">
 
-                <div class="audio-controls">
-                    <audio id="audio-player" preload="metadata"></audio>
-                    
-                    <div class="progress-container">
-                        <span id="current-time">0:00</span>
-                        <input type="range" id="progress-bar" value="0" min="0" max="100">
-                        <span id="duration">0:00</span>
-                    </div>
+        <!-- Progress bar -->
+        <div class="progress-area">
+          <span class="time-display" id="currentTime">0:00</span>
+          <div class="progress-track" id="progressBar" role="slider"
+               aria-label="Position de lecture" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="progress-buffered" id="progressBuffered"></div>
+            <div class="progress-fill"     id="progressFill"></div>
+            <div class="progress-thumb"    id="progressThumb" aria-hidden="true"></div>
+          </div>
+          <span class="time-display" id="totalTime">0:00</span>
+        </div>
 
-                    <div class="control-buttons">
-                        <button id="prev-btn" class="control-btn" title="Précédent">
-                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
-                        </button>
-                        <button id="play-btn" class="control-btn play-btn" title="Play/Pause">
-                            <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                            <svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                        </button>
-                        <button id="next-btn" class="control-btn" title="Suivant">
-                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
-                        </button>
-                    </div>
+        <!-- Buttons -->
+        <div class="controls">
+          <button class="ctrl-btn" id="prevBtn" title="Précédent" aria-label="Précédent">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>
+          </button>
 
-                    <div class="volume-container">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-                        <input type="range" id="volume-slider" value="80" min="0" max="100">
-                    </div>
-                </div>
-            </section>
+          <button class="ctrl-btn play-btn" id="playBtn" title="Play / Pause (Espace)" aria-label="Play">
+            <svg class="icon-play"  viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
 
-            <section class="lyrics-section">
-                <div class="lyrics-header">
-                    <h3>Paroles</h3>
-                    <button id="karaoke-toggle" class="karaoke-btn active">
-                        <span>Mode Karaoké</span>
-                    </button>
-                </div>
-                <div id="lyrics-container" class="lyrics-container">
-                    <p class="placeholder-text">Sélectionnez une chanson pour voir les paroles</p>
-                </div>
-            </section>
+          <button class="ctrl-btn" id="nextBtn" title="Suivant" aria-label="Suivant">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+          </button>
 
-            <section class="playlist-section">
-                <h3>Playlist</h3>
-                <div id="playlist" class="playlist">
-                    <!-- Songs will be dynamically added here -->
-                </div>
-            </section>
-        </main>
+          <div class="volume-control">
+            <button class="vol-btn" id="volBtn" aria-label="Couper/Activer le son">
+              <svg class="icon-volume" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+              <svg class="icon-mute" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/></svg>
+            </button>
+            <input class="volume-slider" id="volumeSlider" type="range" min="0" max="1" step="0.02" value="0.8" aria-label="Volume">
+          </div>
+        </div>
 
-        <footer class="footer">
-            <p>Créé avec <span class="heart">♥</span> | Musiques générées avec <a href="https://suno.ai" target="_blank">Suno AI</a></p>
-        </footer>
-    </div>
+      </div>
+    </main>
 
-    <script src="js/path-helper.js"></script>
-    <script src="js/songs.js"></script>
-    <script src="js/app.js"></script>
+  </div>
+
+  <!-- Overlay for mobile sidebar -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <audio id="audio" preload="metadata"></audio>
+
+  <script src="app.js"></script>
 </body>
 </html>

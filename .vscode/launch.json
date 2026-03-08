@@ -16,6 +16,14 @@
             "url": "http://localhost:3000",
             "webRoot": "${workspaceFolder}",
             "preLaunchTask": "Serve Local"
+        },
+        {
+            "type": "firefox",
+            "request": "launch",
+            "name": "Lancer CreaOnus (Firefox)",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}",
+            "preLaunchTask": "Serve Local"
         }
     ]
 }
